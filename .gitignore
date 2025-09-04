@@ -1,0 +1,10 @@
+# Ignore default names for catkin created folders
+build
+devel
+install
+log
+*.log
+
+# Ignore everything in src except a .gitkeep file
+src/*
+!src/.gitkeep

@@ -1,0 +1,32 @@
+<launch>
+    <group ns="rohand_right">
+      <param name="robot_description" 
+            textfile="$(find rohand_urdf_ros1)/urdf/rohand_right.urdf"/>
+            <param name="tf_prefix" value="rohand_right"/>
+            
+
+      <node name="rohand_left_joint_state_gui"
+            pkg="rohand_urdf_ros1"
+            type="rohand_joint_state_gui.py">
+      </node>
+
+      <node name="robot_state_publisher"
+            pkg="robot_state_publisher"
+            type="robot_state_publisher">
+      </node>
+
+      <node
+        name="rohand_left_urdf_node"
+        pkg="rohand_urdf_ros1"
+        type="rohand_urdf.py"
+        output="screen">
+      </node>
+
+      <node 
+        name="rviz" 
+        pkg="rviz" 
+        type="rviz" 
+        args="-d $(find rohand_urdf_ros1)/rviz/urdf_r.rviz"
+      />
+    </group>
+</launch>
