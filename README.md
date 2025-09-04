@@ -24,6 +24,8 @@ sudo python setup.py install
 ## 3.Compile
 
 ```BASH
+chmod +x rohand_urdf_ros1/scripts/rohand_joint_state_gui.py
+chmod +x rohand_urdf_ros1/scripts/rohand_urdf.py
 cd ~
 cd ros1_ws/
 catkin_make
