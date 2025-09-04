@@ -3,17 +3,13 @@
 #
 # Copyright (c) 2010, Willow Garage, Inc.
 # All rights reserved.
-#
-# 修改说明：适配ROS1版本，移除ROS2依赖，改用rospy和ROS1消息类型
 
 import argparse
 import random
 import signal
 import sys
 import threading
-import math
 
-# ROS1核心库
 import rospy
 from sensor_msgs.msg import JointState
 
@@ -25,7 +21,6 @@ from python_qt_binding.QtWidgets import (QApplication, QFormLayout, QGridLayout,
                                          QPushButton, QSlider, QScrollArea, QVBoxLayout, QWidget)
 
 # 自定义布局
-# from joint_state_publisher_gui.flow_layout import FlowLayout
 from python_qt_binding.QtWidgets import QVBoxLayout  # 添加QVBoxLayout导入
 
 RANGE = 10000
@@ -87,13 +82,13 @@ class JointStatePublisherGui(QMainWindow):
 
     def __init__(self, title):
         super(JointStatePublisherGui, self).__init__()
-        # ROS1初始化 [7](@ref)
+        # 初始化
         rospy.init_node('joint_state_publisher_gui', anonymous=True)
         
         self.joint_map = {}
         self.setWindowTitle(title)
         
-        # 关节状态发布器 [5,7](@ref)
+        # 关节状态发布器
         self.pub = rospy.Publisher('joint_states', JointState, queue_size=10)
         self.joint_state_msg = JointState()
         self.joint_state_msg.name = []
@@ -131,7 +126,7 @@ class JointStatePublisherGui(QMainWindow):
         self.running = True
         self.sliders = {}
         
-        # ROS参数服务器获取URDF [4,7](@ref)
+        # ROS参数服务器获取URDF
         self.robot_description = rospy.get_param('robot_description', '')
         self.free_joints = self._parse_urdf(self.robot_description)
 
@@ -141,7 +136,7 @@ class JointStatePublisherGui(QMainWindow):
         self.initialize.emit()
 
     def _parse_urdf(self, urdf_string):
-        """解析URDF获取关节信息 [7](@ref)"""
+        """解析URDF获取关节信息"""
         from urdf_parser_py.urdf import URDF
         free_joints = {}
         
@@ -202,7 +197,7 @@ class JointStatePublisherGui(QMainWindow):
         position = self.sliderToValue(slidervalue, joint)
         joint_info['display'].setText("%.3f" % position)
         
-        # 发布关节状态 [1,7](@ref)
+        # 发布关节状态
         self.publish_joint_state()
 
     @pyqtSlot()
@@ -216,7 +211,7 @@ class JointStatePublisherGui(QMainWindow):
             joint_info['display'].setText("%.3f" % position)
 
     def publish_joint_state(self):
-        """发布关节状态消息 [1](@ref)"""
+        """发布关节状态消息"""
         msg = JointState()
         msg.header.stamp = rospy.Time.now()
         
@@ -261,7 +256,7 @@ class JointStatePublisherGui(QMainWindow):
         self.running = False
 
     def loop(self):
-        """ROS1主循环 [1](@ref)"""
+        """ROS1主循环"""
         rate = rospy.Rate(30)  # 30Hz
         while self.running and not rospy.is_shutdown():
             self.publish_joint_state()
@@ -272,16 +267,16 @@ def main():
     parser.add_argument('--urdf', help='URDF文件路径（可选）', default=None)
     args = parser.parse_args(rospy.myargv()[1:])
     
-    # 如果通过参数指定URDF，加载到参数服务器 [4](@ref)
+    # 如果通过参数指定URDF，加载到参数服务器
     if args.urdf:
         with open(args.urdf, 'r') as f:
             rospy.set_param('robot_description', f.read())
     
     app = QApplication(sys.argv)
-    jsp_gui = JointStatePublisherGui('Joint State Publisher (ROS1)')
+    jsp_gui = JointStatePublisherGui('Joint State Publisher')
     jsp_gui.show()
     
-    # 启动ROS循环线程 [1](@ref)
+    # 启动ROS循环线程
     threading.Thread(target=jsp_gui.loop).start()
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     sys.exit(app.exec_())

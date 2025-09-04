@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import time
 import rospy
 from sensor_msgs.msg import JointState
 from FingerMathURDF import HAND_FingerPosToAngle
@@ -37,9 +36,9 @@ class ROHandURDFNode:
         self.joint_states_publisher = rospy.Publisher('joint_states', JointState, queue_size = 10)
         
         self.joint_states_sub = rospy.Subscriber(
-            'joint_states',  # 话题路径
-            JointState,        # 消息类型
-            self._joint_states_callback,  # 回调函数
+            'joint_states', 
+            JointState,
+            self._joint_states_callback,
             queue_size=10
         )
 
@@ -94,26 +93,16 @@ class ROHandURDFNode:
 
         # publish message
         self.joint_states_publisher.publish(rotation_msg)
-        rospy.loginfo(f'Published rotation angle: {rotation_msg.position}\n')  # 日志修改
+        rospy.loginfo(f'Published rotation angle: {rotation_msg.position}\n')
         
 
-# def main(args=None):
-#     rclpy.init(args=args)  # 初始化rclpy
-
-#     node = ROHandURDFNode()  # 新建一个节点
-
-#     rclpy.spin(node)  # 保持节点运行，检测是否收到退出指令（Ctrl+C）
-#     node.destroy_node()
-#     rclpy.shutdown()  # 关闭rclpy
-
 def main():
-    # 10. ROS1主循环管理
     node = ROHandURDFNode()
-    rospy.spin()  # 阻塞式循环，替代rclpy.spin()
+    rospy.spin()
 
 if __name__ == '__main__':
     try:
         main()
-    except rospy.ROSInterruptException:  # 11. 异常处理
+    except rospy.ROSInterruptException:
         pass
     

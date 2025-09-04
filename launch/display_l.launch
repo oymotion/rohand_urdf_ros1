@@ -4,7 +4,6 @@
             textfile="$(find rohand_urdf_ros1)/urdf/rohand_left.urdf"/>
             <param name="tf_prefix" value="rohand_left"/>
             
-
       <node name="rohand_left_joint_state_gui"
             pkg="rohand_urdf_ros1"
             type="rohand_joint_state_gui.py">
@@ -29,6 +28,4 @@
         args="-d $(find rohand_urdf_ros1)/rviz/urdf_l.rviz"
       />
     </group>
-
-
 </launch>

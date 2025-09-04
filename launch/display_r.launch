@@ -4,7 +4,6 @@
             textfile="$(find rohand_urdf_ros1)/urdf/rohand_right.urdf"/>
             <param name="tf_prefix" value="rohand_right"/>
             
-
       <node name="rohand_left_joint_state_gui"
             pkg="rohand_urdf_ros1"
             type="rohand_joint_state_gui.py">
