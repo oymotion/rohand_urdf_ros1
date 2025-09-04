@@ -2,7 +2,7 @@
   <name>rohand_urdf_ros1</name>
   <version>1.0.0</version>
   <description>
-    <p>URDF Description package for rohand_right_ros1</p>
+    <p>URDF Description package for rohand_urdf_ros1</p>
     <p>This package contains configuration data, 3D models and launch files
 for rohand_urdf_ros1 robot</p>
   </description>
