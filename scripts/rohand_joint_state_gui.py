@@ -89,7 +89,8 @@ class JointStatePublisherGui(QMainWindow):
         self.setWindowTitle(title)
         
         # 关节状态发布器
-        self.pub = rospy.Publisher('joint_states', JointState, queue_size=10)
+        # self.pub = rospy.Publisher('joint_states', JointState, queue_size=10)
+        self.pub = rospy.Publisher('joint_states_raw', JointState, queue_size=10)
         self.joint_state_msg = JointState()
         self.joint_state_msg.name = []
         self.joint_state_msg.position = []

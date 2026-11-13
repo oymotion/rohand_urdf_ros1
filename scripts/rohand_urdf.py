@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
+import os
+import sys
 import rospy
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sensor_msgs.msg import JointState
 from FingerMathURDF import HAND_FingerPosToAngle
 print(HAND_FingerPosToAngle(0, 0))
@@ -36,7 +39,7 @@ class ROHandURDFNode:
         self.joint_states_publisher = rospy.Publisher('joint_states', JointState, queue_size = 10)
         
         self.joint_states_sub = rospy.Subscriber(
-            'joint_states', 
+            'joint_states_raw', 
             JointState,
             self._joint_states_callback,
             queue_size=10
@@ -61,7 +64,8 @@ class ROHandURDFNode:
 
     def _joint_states_callback(self, msg):
         rotation_msg = JointState()
-        rotation_msg.header = msg.header
+        # rotation_msg.header = msg.header
+        rotation_msg.header.stamp = rospy.Time.now()
         rotation_msg.name = []
         rotation_msg.position = []
 
