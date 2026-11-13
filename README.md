@@ -60,6 +60,8 @@ roslaunch rohand_urdf_ros1 display_r.launch
 
 If you want to permanently close the warning pop-up window(when it pops up):
 
+![pop-up window](./imgs/WarningWindow.png)
+
 ```BASH
 echo "export DISABLE_ROS1_EOL_WARNINGS=1" >> ~/.bashrc
 source ~/.bashrc
